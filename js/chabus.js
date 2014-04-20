@@ -42,7 +42,7 @@ function chabusInitialize(map) {
                     title: ("Bus #" + bus.id),
                     icon: {
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                        scale: 2,
+                        scale: 3,
                         rotation: heading
                     },
                     map: map
