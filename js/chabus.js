@@ -46,7 +46,10 @@ function chabusInitialize(map) {
     var initialbuses = JSON.parse(xmlHttp.responseText);
     console.log(initialbuses);
     for(var i = 0; i < initialbuses.length; i++) {
-        drawbus(initialbuses[i]);
+        console.log(initialbuses[i]);
+        if(initialbuses[i].route != "U") {
+            drawbus(initialbuses[i]);
+        }
     }
     markerlocation = new google.maps.LatLng(35.0344, -85.2700);
     //var marker = new google.maps.Marker({
