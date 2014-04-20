@@ -1,5 +1,4 @@
 function drawbus(bus) {
-    var buses = {};
     var headings = {
         N: 0,
         NNE: 22.5,
@@ -20,8 +19,8 @@ function drawbus(bus) {
     }
         buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
         var heading = headings[bus.heading];
-        if(!buses[bus.id]) {
-            buses[bus.id] = new google.maps.Marker({
+        if(!window.buses[bus.id]) {
+            window.buses[bus.id] = new google.maps.Marker({
                 position: buslocation,
                 title: ("Bus #" + bus.id),
                 icon: {
@@ -32,23 +31,22 @@ function drawbus(bus) {
                 map: map
                 });
         } else {
-            buses[bus.id].setPosition(buslocation);
-            var iconUpdate = buses[bus.id].getIcon();
+            window.buses[bus.id].setPosition(buslocation);
+            var iconUpdate = window.buses[bus.id].getIcon();
             iconUpdate.rotation = heading;
-            buses[bus.id].setIcon(iconUpdate);
+            window.buses[bus.id].setIcon(iconUpdate);
         }
     }
     
 function chabusInitialize(map) {
+    window.buses = {};
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "http://api.chab.us/buses", false);
     xmlHttp.send();
     var initialbuses = JSON.parse(xmlHttp.responseText);
     console.log(initialbuses);
     for(var i = 0; i < initialbuses.length; i++) {
-        console.log(initialbuses[i]);
-        var newBus = initialbuses[i];
-        drawbus(newBus);
+        drawbus(initialbuses[i]);
     }
     markerlocation = new google.maps.LatLng(35.0344, -85.2700);
     //var marker = new google.maps.Marker({
