@@ -45,6 +45,25 @@ function drawbus(bus) {
     }
 }
     
+function setCurrentLocation() {
+    var myloc = new google.maps.Marker({
+    clickable: false,
+    icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                    new google.maps.Size(22,22),
+                                                    new google.maps.Point(0,18),
+                                                    new google.maps.Point(11,11)),
+    shadow: null,
+    zIndex: 999,
+    window.map: // your google.maps.Map object
+    });
+
+    if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
+        var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+        myloc.setPosition(me);
+    }, function(error) {
+        // ...
+    });
+}
 function chabusInitialize(map) {
     window.buses = {};
     xmlHttp = new XMLHttpRequest();
@@ -67,9 +86,11 @@ function chabusInitialize(map) {
     //    map: map
     //    });
     new EventSource('http://api.chab.us/buses/tail').addEventListener('change', function (x) { 
-            var json = JSON.parse(x.data);
-            var bus = json.bus;
-            //console.log(bus.id);
-            drawbus(bus);
-             });
+        var json = JSON.parse(x.data);
+        var bus = json.bus;
+        //console.log(bus.id);
+        drawbus(bus);
+        setCurrentLocation();
+        
+    });
 }
