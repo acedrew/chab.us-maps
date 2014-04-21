@@ -46,7 +46,11 @@ function drawbus(bus) {
 }
     
 function setCurrentLocation() {
-    var myloc = new google.maps.Marker({
+    if(window.myloc) {
+        window.myloc.setMap(null);
+        window.myloc = null;
+    }
+    window.myloc = new google.maps.Marker({
     clickable: false,
     icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
                                                     new google.maps.Size(22,22),
