@@ -18,8 +18,9 @@ function drawbus(bus) {
         NW: 315,
         NNW: 337.5
     }
-
+    console.log(bus.route);
     if(bus.route == "33" || bus.route == "34") {
+        console.log(bus.route);
         color = "#029f5b"
     }
     buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
