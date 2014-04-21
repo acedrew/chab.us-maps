@@ -51,9 +51,7 @@ function chabusInitialize(map) {
     xmlHttp.open( "GET", "http://api.chab.us/buses", false);
     xmlHttp.send();
     var initialbuses = JSON.parse(xmlHttp.responseText);
-    console.log(initialbuses);
     for(var i = 0; i < initialbuses.length; i++) {
-        console.log(initialbuses[i]);
         if(initialbuses[i].route != "U") {
             drawbus(initialbuses[i]);
         }
