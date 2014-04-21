@@ -31,7 +31,8 @@ function drawbus(bus) {
             icon: {
                 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
                 scale: 3,
-                rotation: heading
+                rotation: heading,
+                fillColor: color
             },
             map: map
             });
