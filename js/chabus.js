@@ -18,7 +18,7 @@ function drawbus(bus) {
         NW: 315,
         NNW: 337.5
     }
-    if(bus.route == "33" || bus.route == "34") {
+    if(bus.properties.route == "33" || bus.properties.route == "34") {
         color = "#029f5b"
     }
     var symbol = {
@@ -28,8 +28,8 @@ function drawbus(bus) {
         fillColor: color,
         strokeColor: color
     }
-    buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
-    var heading = headings[bus.heading];
+    buslocation =  new google.maps.LatLng(bus.geometry.coordinates[1], bus.geometry.coordinates[0]);
+    var heading = headings[bus.properties.heading];
     if(!window.buses[bus.id]) {
         window.buses[bus.id] = new google.maps.Marker({
             position: buslocation,
@@ -73,9 +73,9 @@ function chabusInitialize(map) {
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "http://api.chab.us/buses", false);
     xmlHttp.send();
-    var initialbuses = JSON.parse(xmlHttp.responseText);
+    var initialbuses = JSON.parse(xmlHttp.responseText).features;
     for(var i = 0; i < initialbuses.length; i++) {
-        if(initialbuses[i].route != "U") {
+        if(initialbuses[i].properties.route != "U") {
             drawbus(initialbuses[i]);
         }
     }
@@ -90,8 +90,8 @@ function chabusInitialize(map) {
     //    map: map
     //    });
     new EventSource('http://api.chab.us/buses/tail').addEventListener('change', function (x) { 
-        var json = JSON.parse(x.data);
-        var bus = json.bus;
+        var bus = JSON.parse(x.data);
+
         //console.log(bus.id);
         drawbus(bus);
         setCurrentLocation();
