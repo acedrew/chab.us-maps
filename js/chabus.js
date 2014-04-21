@@ -29,7 +29,7 @@ function drawbus(bus) {
         rotation: heading,
         fillColor: color
     }
-
+    console.log(symbol.path);
     buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
     var heading = headings[bus.heading];
     if(!window.buses[bus.id]) {
