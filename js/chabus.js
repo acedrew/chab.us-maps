@@ -25,7 +25,7 @@ function drawbus(bus) {
         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
         scale: 3,
         rotation: heading,
-        fillColor: color
+        fillColor: color,
         pathColor: color
     }
     console.log(symbol.path);
