@@ -54,7 +54,7 @@ function setCurrentLocation() {
                                                     new google.maps.Point(11,11)),
     shadow: null,
     zIndex: 999,
-    window.map: // your google.maps.Map object
+    map: window.map // your google.maps.Map object
     });
 
     if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
