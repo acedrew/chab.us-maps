@@ -26,6 +26,7 @@ function drawbus(bus) {
         scale: 3,
         rotation: heading,
         fillColor: color
+        pathColor: color
     }
     console.log(symbol.path);
     buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
