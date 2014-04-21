@@ -1,4 +1,5 @@
 function drawbus(bus) {
+    var color = "#000000";
     var headings = {
         N: 0,
         NNE: 22.5,
@@ -17,26 +18,30 @@ function drawbus(bus) {
         NW: 315,
         NNW: 337.5
     }
-        buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
-        var heading = headings[bus.heading];
-        if(!window.buses[bus.id]) {
-            window.buses[bus.id] = new google.maps.Marker({
-                position: buslocation,
-                title: ("Bus #" + bus.id),
-                icon: {
-                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                    scale: 3,
-                    rotation: heading
-                },
-                map: map
-                });
-        } else {
-            window.buses[bus.id].setPosition(buslocation);
-            var iconUpdate = window.buses[bus.id].getIcon();
-            iconUpdate.rotation = heading;
-            window.buses[bus.id].setIcon(iconUpdate);
-        }
+
+    if(bus.route == 33) {
+        color = "#029f5b"
     }
+    buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
+    var heading = headings[bus.heading];
+    if(!window.buses[bus.id]) {
+        window.buses[bus.id] = new google.maps.Marker({
+            position: buslocation,
+            title: ("Bus #" + bus.id),
+            icon: {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                scale: 3,
+                rotation: heading
+            },
+            map: map
+            });
+    } else {
+        window.buses[bus.id].setPosition(buslocation);
+        var iconUpdate = window.buses[bus.id].getIcon();
+        iconUpdate.rotation = heading;
+        window.buses[bus.id].setIcon(iconUpdate);
+    }
+}
     
 function chabusInitialize(map) {
     window.buses = {};
