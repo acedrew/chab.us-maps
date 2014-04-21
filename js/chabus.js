@@ -23,18 +23,20 @@ function drawbus(bus) {
         console.log(bus.route);
         color = "#029f5b"
     }
+    var symbol = {
+        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+        scale: 3,
+        rotation: heading,
+        fillColor: color
+    }
+
     buslocation =  new google.maps.LatLng(parseFloat(bus.lat), parseFloat(bus.lon));
     var heading = headings[bus.heading];
     if(!window.buses[bus.id]) {
         window.buses[bus.id] = new google.maps.Marker({
             position: buslocation,
             title: ("Bus #" + bus.id),
-            icon: {
-                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                scale: 3,
-                rotation: heading,
-                fillColor: color
-            },
+            icon: symbol,
             map: map
             });
     } else {
