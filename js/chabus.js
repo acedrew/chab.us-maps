@@ -1,4 +1,4 @@
-function drawbus(bus) {
+function drawBus(bus) {
     if(bus.properties.route == "U") {
         return
     }
@@ -49,30 +49,40 @@ function drawbus(bus) {
     }
 }
     
-function setCurrentLocation() {
-    if(window.myloc) {
-        window.myloc.setMap(null);
-        window.myloc = null;
+function killBus(bus) {
+    console.log(bus);
+    console.log(window.buses);
+    if(window.buses[bus.id]) {
+        window.buses[bus.id].setMap(null);
+        window.buses[bus.id] = null;
+        delete window.buses[bus.id];
     }
-    window.myloc = new google.maps.Marker({
-    clickable: false,
-    icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
-                                                    new google.maps.Size(22,22),
-                                                    new google.maps.Point(0,18),
-                                                    new google.maps.Point(11,11)),
-    shadow: null,
-    zIndex: 999,
-    map: window.map // your google.maps.Map object
-    });
-
+}
+function setCurrentLocation() {
     if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
         var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        myloc.setPosition(me);
+    if(!window.myloc) {
+        window.myloc = new google.maps.Marker({
+            clickable: false,
+            icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                            new google.maps.Size(22,22),
+                                                            new google.maps.Point(0,18),
+                                                            new google.maps.Point(11,11)),
+            shadow: null,
+            zIndex: 999,
+            map: window.map // your google.maps.Map object
+        });
+    } else {
+        window.myloc.setPosition(me);
+    }
     }, function(error) {
+        return;
         // ...
     });
+
 }
 function chabusInitialize(map) {
+    var evntSource = new EventSource('http://api.chab.us/buses/tail')
     window.buses = {};
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "http://api.chab.us/buses", false);
@@ -81,23 +91,20 @@ function chabusInitialize(map) {
     var i = initialbuses.length;
     while(i--) {
         if(initialbuses[i].properties.route != "U") {
-            drawbus(initialbuses[i]);
+            drawBus(initialbuses[i]);
         }
     }
-    markerlocation = new google.maps.LatLng(35.0344, -85.2700);
-    //var marker = new google.maps.Marker({
-    //    position: markerlocation,
-    //    title: "Test Marker",
-    //    icon: {
-    //        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-    //        scale: 2
-    //        },
-    //    map: map
-    //    });
-    new EventSource('http://api.chab.us/buses/tail').addEventListener('change', function (x) { 
+    
+    evntSource.addEventListener('change', function (x) { 
         var json = JSON.parse(x.data);
-        drawbus(json);
+        drawBus(json);
         setCurrentLocation();
         
     });
+    evntSource.addEventListener('remove', function (x) { 
+        var json = JSON.parse(x.data);
+        console.log(json);
+        killBus(json);
+    });
+
 }
