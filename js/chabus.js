@@ -109,3 +109,13 @@ function chabusInitialize(map) {
     });
 
 }
+function resizeScreen() {
+    var screenSize = window.innerHeight;
+    var headerHeight = document.querySelector("div.header").offsetHeight;
+    document.querySelector("#home").style.height = (screenSize - headerHeight).toString() + "px";
+}
+document.addEventListener("DOMContentLoaded", function(event) {
+    resizeScreen();
+    console.log("DOM fully loaded and parsed");
+});
+window.onresize = resizeScreen;
