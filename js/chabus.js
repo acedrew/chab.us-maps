@@ -50,8 +50,6 @@ function drawBus(bus) {
 }
     
 function killBus(bus) {
-    console.log(bus);
-    console.log(window.buses);
     if(window.buses[bus.id]) {
         window.buses[bus.id].setMap(null);
         window.buses[bus.id] = null;
@@ -104,7 +102,6 @@ function chabusInitialize(map) {
     });
     evntSource.addEventListener('remove', function (x) { 
         var json = JSON.parse(x.data);
-        console.log(json);
         killBus(json);
     });
 
@@ -116,6 +113,5 @@ function resizeScreen() {
 }
 document.addEventListener("DOMContentLoaded", function(event) {
     resizeScreen();
-    console.log("DOM fully loaded and parsed");
 });
 window.onresize = resizeScreen;
