@@ -61,20 +61,20 @@ function killBus(bus) {
 function setCurrentLocation() {
     if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
         var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-    if(!window.myloc) {
-        window.myloc = new google.maps.Marker({
-            clickable: false,
-            icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
-                                                            new google.maps.Size(22,22),
-                                                            new google.maps.Point(0,18),
-                                                            new google.maps.Point(11,11)),
-            shadow: null,
-            zIndex: 999,
-            map: window.map // your google.maps.Map object
-        });
-    } else {
-        window.myloc.setPosition(me);
-    }
+        if(!window.myloc) {
+            window.myloc = new google.maps.Marker({
+                clickable: false,
+                icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                                new google.maps.Size(22,22),
+                                                                new google.maps.Point(0,18),
+                                                                new google.maps.Point(11,11)),
+                shadow: null,
+                zIndex: 999,
+                map: window.map // your google.maps.Map object
+            });
+        } else {
+            window.myloc.setPosition(me);
+        }
     }, function(error) {
         return;
         // ...
@@ -94,6 +94,7 @@ function chabusInitialize(map) {
             drawBus(initialbuses[i]);
         }
     }
+    setCurrentLocation();
     
     evntSource.addEventListener('change', function (x) { 
         var json = JSON.parse(x.data);
